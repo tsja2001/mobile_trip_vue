@@ -1,19 +1,51 @@
 <template>
   <div class="search_box">
-    <div class="position">
-      <div class="left" @click="cityClick">{{ currentCity.cityName }}</div>
+    <!-- 位置 -->
+    <div class="position item">
+      <div class="left" @click="cityClick">
+        {{ currentCity.cityName }}
+      </div>
       <div class="right" @click="positonClick">
         <div class="text">我的位置</div>
-        <img src="@/assets/img/location_city.png" class="loaction_img" />
+        <img
+          src="@/assets/img/location_city.png"
+          class="loaction_img"
+        />
       </div>
     </div>
+    <!-- 时间选择 -->
+    <div
+      class="time_select item"
+      @click="showCalendar = true"
+    >
+      <div class="time_item">
+        <div class="time_text">入住</div>
+        <div class="time_main">{{ startDate }}</div>
+      </div>
+      <div class="middle_text">共{{ diffDate }}晚</div>
+      <div class="time_item">
+        <div class="time_text">离店</div>
+        <div class="time_main">{{ endDate }}</div>
+      </div>
+    </div>
+    <van-calendar
+      v-model:show="showCalendar"
+      type="range"
+      color="#ff9854"
+      @confirm="onCalendarConfirm"
+    />
   </div>
 </template>
 
 <script setup>
 import router from '@/router'
 import { useCityStore } from '@/store/modules/city'
+import {
+  formatMonthDay,
+  getDiffDate
+} from '@/utils/format_date'
 import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
 const positonClick = () => {
   navigator.geolocation.getCurrentPosition(
@@ -34,14 +66,37 @@ const cityClick = () => {
 // 获取当前城市
 const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
+
+// 显示当前时间, 明天
+const nowDate = new Date()
+const startDate = ref(formatMonthDay(nowDate))
+const newDate = nowDate.setDate(nowDate.getDate() + 1)
+const endDate = ref(formatMonthDay(newDate))
+// 相差几天
+const diffDate = ref('1')
+
+// 点击选择日期
+const showCalendar = ref(false)
+
+const onCalendarConfirm = (dates) => {
+  showCalendar.value = false
+
+  startDate.value = formatMonthDay(dates[0])
+  endDate.value = formatMonthDay(dates[1])
+
+  diffDate.value = getDiffDate(dates[0], dates[1])
+}
 </script>
 <style lang="less" scoped>
-.position {
-  width: 100;
+.item {
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
-  padding: 5px 10px;
+  align-items: center;
+  padding: 7px 20px;
   box-sizing: border-box;
+}
+.position {
   font-size: 13px;
   .left {
     flex: 1;
@@ -55,6 +110,23 @@ const { currentCity } = storeToRefs(cityStore)
       height: 22px;
       padding-left: 4px;
     }
+  }
+}
+.time_select {
+  justify-content: space-between;
+  // padding: 4px 20px;
+  .time_item {
+    // width: 90px;
+    .time_text {
+      font-size: 9px;
+      color: #a0a0a0;
+      .time_main {
+        font-size: 10px;
+      }
+    }
+  }
+  .middle_text {
+    font-size: 8px;
   }
 }
 </style>

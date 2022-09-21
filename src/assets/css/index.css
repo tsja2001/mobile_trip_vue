@@ -2,4 +2,12 @@
   --primary-color: #ff9854;
   --van-search-left-icon-color: #ff9854 !important;
   --van-border-gray: 1px solid #f4f4f4 !important;
+  --theme-linear-gradient: linear-gradient(
+    90deg,
+    #fa8c1d,
+    #fcaf3f
+  );
+}
+html {
+  line-height: 1.2;
 }

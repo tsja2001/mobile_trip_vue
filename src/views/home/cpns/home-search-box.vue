@@ -44,12 +44,27 @@
         <div class="filler_params">关键字/位置/民宿名</div>
       </div>
     </div>
+    <!-- 显示热门推荐 -->
+    <div class="hot_box">
+      <div
+        class="hotItem"
+        v-for="item in hotSuggests"
+        key="index"
+      >
+        {{ item.tagText.text }}
+      </div>
+    </div>
+    <!-- 搜索按钮 -->
+    <div class="search_btn item">
+      <div class="btn">开始搜索</div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import router from '@/router'
 import { useCityStore } from '@/store/modules/city'
+import { useHomeStore } from '@/store/modules/home'
 import {
   formatMonthDay,
   getDiffDate
@@ -96,6 +111,12 @@ const onCalendarConfirm = (dates) => {
 
   diffDate.value = getDiffDate(dates[0], dates[1])
 }
+
+// 获取热门城市推荐
+const home = useHomeStore()
+home.fetchHotSuggestData()
+const { hotSuggests } = storeToRefs(home)
+// city.getCityAllData()
 </script>
 <style lang="less" scoped>
 .item {
@@ -157,6 +178,36 @@ const onCalendarConfirm = (dates) => {
     .filler_item {
       width: 84px;
     }
+  }
+}
+.hot_box {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 8px 20px;
+  box-sizing: border-box;
+  .hotItem {
+    padding: 3px 7px;
+    border-radius: 5px;
+    background-color: #fef5f0;
+    // color: var(--primary-color);
+    font-size: 10px;
+    margin-bottom: 8px;
+    margin-right: 5px;
+  }
+}
+.search_btn {
+  .btn {
+    // width: 100%;
+    flex: 1;
+    height: 38px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    background-image: var(--theme-linear-gradient);
   }
 }
 </style>

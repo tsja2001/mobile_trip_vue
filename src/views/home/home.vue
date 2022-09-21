@@ -1,12 +1,17 @@
+<script setup>
+import HomeNavBar from './cpns/home-nav-bar.vue'
+import HomeSearchBox from './cpns/home-search-box.vue'
+</script>
 <template>
   <div class="home">
-    <van-button type="primary">主要按钮</van-button>
-    <van-button type="success">成功按钮</van-button>
-    <van-button type="default">默认按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
+    <HomeNavBar></HomeNavBar>
+    <img src="@/assets/img/banner.png" class="banner" />
+    <HomeSearchBox></HomeSearchBox>
   </div>
 </template>
-
-<script setup></script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.banner {
+  width: 100%;
+  position: relative;
+}
+</style>

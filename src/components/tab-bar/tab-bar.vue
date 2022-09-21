@@ -41,12 +41,7 @@ let currentIndex = ref(0)
   bottom: 0;
   left: 0;
   width: 100%;
-  // height: 60px;
-  // background-color: #f0f0f0;
   display: flex;
   flex-flow: row nowrap;
-  img {
-    // height: 60px;
-  }
 }
 </style>

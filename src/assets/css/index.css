@@ -1,4 +1,5 @@
 :root {
   --primary-color: #ff9854;
   --van-search-left-icon-color: #ff9854 !important;
+  --van-border-gray: 1px solid #f4f4f4 !important;
 }

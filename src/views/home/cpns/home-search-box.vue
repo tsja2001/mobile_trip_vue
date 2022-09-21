@@ -13,7 +13,7 @@
         />
       </div>
     </div>
-    <!-- 时间选择 -->
+    <!-- 日期选择 -->
     <div
       class="time_select item"
       @click="showCalendar = true"
@@ -27,13 +27,23 @@
         <div class="time_text">离店</div>
         <div class="time_main">{{ endDate }}</div>
       </div>
+      <van-calendar
+        v-model:show="showCalendar"
+        type="range"
+        color="#ff9854"
+        @confirm="onCalendarConfirm"
+      />
     </div>
-    <van-calendar
-      v-model:show="showCalendar"
-      type="range"
-      color="#ff9854"
-      @confirm="onCalendarConfirm"
-    />
+    <!-- 搜索条件 -->
+    <div class="filler_box">
+      <div class="filler">
+        <div class="filler_item">价格不限</div>
+        <div class="filler_item">时间不限</div>
+      </div>
+      <div class="filler">
+        <div class="filler_params">关键字/位置/民宿名</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -117,6 +127,8 @@ const onCalendarConfirm = (dates) => {
   // padding: 4px 20px;
   .time_item {
     // width: 90px;
+
+    width: 84px;
     .time_text {
       font-size: 9px;
       color: #a0a0a0;
@@ -127,6 +139,24 @@ const onCalendarConfirm = (dates) => {
   }
   .middle_text {
     font-size: 8px;
+  }
+}
+.filler_box {
+  padding: 0px 20px;
+  box-sizing: border-box;
+  .filler {
+    padding: 8px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    justify-content: space-between;
+    color: #a0a0a0;
+    font-size: 10px;
+    border-bottom: var(--van-border-gray);
+    .filler_item {
+      width: 84px;
+    }
   }
 }
 </style>

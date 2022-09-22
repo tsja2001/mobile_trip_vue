@@ -29,7 +29,7 @@ const { houseListData } = storeToRefs(homeStore)
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  padding: 0 5px;
+  padding: 0 4px;
   box-sizing: border-box;
 }
 </style>

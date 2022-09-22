@@ -3,6 +3,7 @@
     <van-tabbar
       v-model="currentIndex"
       active-color="#ff9854"
+      route
     >
       <van-tabbar-item
         icon="home-o"
@@ -30,9 +31,25 @@
 <script setup>
 import { tabbarData } from '@/assets/data/tabber'
 import { getAssetUrl } from '@/utils/load_assets'
-import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { onMounted, ref, watch } from 'vue'
 
 let currentIndex = ref(0)
+
+// 实现手动输入路径后, tabbar自动显示对应icon
+const router = useRoute()
+watch(
+  router,
+  (newRouter) => {
+    const index = tabbarData.findIndex(
+      (item) => item.url === newRouter.path
+    )
+    if (index != -1) currentIndex.value = index
+  },
+  {
+    immediate: true
+  }
+)
 </script>
 <style lang="less" scoped>
 .tabbar {

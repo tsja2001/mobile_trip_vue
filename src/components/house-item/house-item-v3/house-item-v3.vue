@@ -37,7 +37,8 @@ const props = defineProps(['data'])
 <style lang="less" scoped>
 .house-item-v9 {
   width: 50%;
-  padding: 5px;
+  padding: 4px;
+  padding-bottom: 0;
   box-sizing: border-box;
   .inner {
     width: 100%;

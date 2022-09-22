@@ -1,6 +1,8 @@
 <template>
   <div class="app">
+    <!-- <div class="main"> -->
     <router-view />
+    <!-- </div> -->
     <tab-bar
       v-if="router.currentRoute.value.meta.showTabBar"
     ></tab-bar>

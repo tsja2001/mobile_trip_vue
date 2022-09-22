@@ -55,7 +55,7 @@
       </div>
     </div>
     <!-- 搜索按钮 -->
-    <div class="search_btn item">
+    <div class="search_btn item" @click="searchBtnClick">
       <div class="btn">开始搜索</div>
     </div>
   </div>
@@ -114,9 +114,19 @@ const onCalendarConfirm = (dates) => {
 
 // 获取热门城市推荐
 const home = useHomeStore()
-home.fetchHotSuggestData()
 const { hotSuggests } = storeToRefs(home)
-// city.getCityAllData()
+
+// 点击跳转到搜索页面
+const searchBtnClick = () => {
+  router.push({
+    path: '/search',
+    query: {
+      startDate: startDate.value,
+      endDate: endDate.value,
+      currentCity: currentCity.value.cityName
+    }
+  })
+}
 </script>
 <style lang="less" scoped>
 .item {

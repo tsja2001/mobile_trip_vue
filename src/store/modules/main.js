@@ -10,10 +10,9 @@ const endDate = new Date(
 )
 
 export const useMainStore = defineStore('main', {
-  state() {
-    return {
-      startDate: startDate,
-      endDate: endDate
-    }
-  }
+  state: () => ({
+    startDate: startDate,
+    endDate: endDate,
+    isLoading: false
+  })
 })

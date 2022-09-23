@@ -20,20 +20,20 @@
     >
       <div class="time_item">
         <div class="time_text">入住</div>
-        <div class="time_main">{{ startDate }}</div>
+        <div class="time_main">{{ startDateStr }}</div>
       </div>
       <div class="middle_text">共{{ diffDate }}晚</div>
       <div class="time_item">
         <div class="time_text">离店</div>
-        <div class="time_main">{{ endDate }}</div>
+        <div class="time_main">{{ endDateStr }}</div>
       </div>
-      <van-calendar
-        v-model:show="showCalendar"
-        type="range"
-        color="#ff9854"
-        @confirm="onCalendarConfirm"
-      />
     </div>
+    <van-calendar
+      v-model:show="showCalendar"
+      type="range"
+      color="#ff9854"
+      @confirm="onCalendarConfirm"
+    />
     <!-- 搜索条件 -->
     <div class="filler_box">
       <div class="filler">
@@ -65,12 +65,13 @@
 import router from '@/router'
 import { useCityStore } from '@/store/modules/city'
 import { useHomeStore } from '@/store/modules/home'
+import { useMainStore } from '@/store/modules/main'
 import {
   formatMonthDay,
   getDiffDate
 } from '@/utils/format_date'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const positonClick = () => {
   navigator.geolocation.getCurrentPosition(
@@ -93,23 +94,24 @@ const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
 
 // 显示当前时间, 明天
-const nowDate = new Date()
-const startDate = ref(formatMonthDay(nowDate))
-const newDate = nowDate.setDate(nowDate.getDate() + 1)
-const endDate = ref(formatMonthDay(newDate))
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
+
+const startDateStr = ref(formatMonthDay(startDate.value))
+const endDateStr = ref(formatMonthDay(endDate.value))
+
 // 相差几天
-const diffDate = ref('1')
+const diffDate = computed(() =>
+  getDiffDate(startDate.value, endDate.value)
+)
 
 // 点击选择日期
 const showCalendar = ref(false)
 
 const onCalendarConfirm = (dates) => {
   showCalendar.value = false
-
-  startDate.value = formatMonthDay(dates[0])
-  endDate.value = formatMonthDay(dates[1])
-
-  diffDate.value = getDiffDate(dates[0], dates[1])
+  mainStore.startDate = dates[0]
+  mainStore.endDate = dates[1]
 }
 
 // 获取热门城市推荐
@@ -121,8 +123,8 @@ const searchBtnClick = () => {
   router.push({
     path: '/search',
     query: {
-      startDate: startDate.value,
-      endDate: endDate.value,
+      startDateStr: startDateStr.value,
+      endDateStr: endDateStr.value,
       currentCity: currentCity.value.cityName
     }
   })

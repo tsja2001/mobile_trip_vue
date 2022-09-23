@@ -6,6 +6,7 @@ import HomeCategories from './cpns/home-categories.vue'
 import HomeContent from './cpns/home-content.vue'
 import useScroll from '@/hooks/useScroll'
 import { computed, watch } from 'vue'
+import SearchBar from './cpns/search-bar.vue'
 
 // 加载home数据
 const home = useHomeStore()
@@ -32,7 +33,7 @@ const ifDisplaySearch = computed(() => {
     <img src="@/assets/img/banner.png" class="banner" />
     <HomeSearchBox></HomeSearchBox>
     <HomeCategories></HomeCategories>
-    <div v-if="ifDisplaySearch">搜索</div>
+    <SearchBar v-show="ifDisplaySearch"></SearchBar>
     <HomeContent></HomeContent>
   </div>
 </template>
